@@ -1,10 +1,23 @@
 from ai_models.api import send_prompt
 
+
 def main():
-    content = input("Enter your prompt: ")
-    print("")
-    response = send_prompt(content)
-    print(response)
+    messages = []
+
+
+    while True:
+        content = input("Enter your prompt (or 'exit' to quit): ")
+
+
+        if content == "exit":
+            break
+
+
+        response = send_prompt(content, messages)
+
+        print("")
+        print(response)
+        print("")
 
 
 

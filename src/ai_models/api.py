@@ -1,6 +1,7 @@
 import os
 import requests
 
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -14,16 +15,21 @@ headers = {
     "Content-Type" : "application/json"
 }
 
-def send_prompt(content):
+def send_prompt(content, messages):
+
+    messages.append(
+        {
+            "role": "user",
+            "content": content,
+        }
+    )
+
+
     data = {
         "model" : "qwen3.8-max",
-        "messages" : [
-            {
-                "role" : "user",
-                "content" : content,
-            },
-        ],
+        "messages": messages,
     }
+
 
     response = requests.post(
         url,
@@ -31,5 +37,20 @@ def send_prompt(content):
         json=data,
     )
 
-    return response.json()["choices"][0]["message"]["content"]
+    response.raise_for_status()
+
+    response_data = response.json()
+
+    assistant_message = response_data["choices"][0]["message"]["content"]
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": assistant_message
+        }
+    )
+
+    return assistant_message
+
+
 
