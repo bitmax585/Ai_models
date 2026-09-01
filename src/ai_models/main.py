@@ -6,22 +6,18 @@ def main():
 
 
     while True:
-        content = input("Enter your prompt (or 'exit' to quit): ")
+        content = input("Enter your prompt (or 'q' to quit): ")
 
 
-        if content == "exit":
+        if content == "q":
             break
 
 
-        response = send_prompt(content, messages)
+        responce = send_prompt(content, messages)
 
-        print("")
-        print(response)
-        print("")
-
-
-
-
+        print()
+        print(responce)
+        print()
 
 if __name__ == "__main__":
     main()

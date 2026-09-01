@@ -1,7 +1,6 @@
 import os
 import requests
 
-
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -30,18 +29,43 @@ def send_prompt(content, messages):
         "messages": messages,
     }
 
+    
+    try:
+        response = requests.post(
+            url,
+            headers=headers,
+            json=data,
+            timeout=60,
+        )
 
-    response = requests.post(
-        url,
-        headers=headers,
-        json=data,
-    )
+        response.raise_for_status()
 
-    response.raise_for_status()
+        response_data = response.json()
 
-    response_data = response.json()
+        assistant_message = response_data["choices"][0]["message"]["content"]
 
-    assistant_message = response_data["choices"][0]["message"]["content"]
+
+
+    except requests.exceptions.Timeout:
+        messages.pop()
+        return "Error: Request timed out."
+
+    except requests.exceptions.ConnectionError:
+        messages.pop()
+        return "Error: Could not connect to the API"
+
+    except requests.exceptions.HTTPError:
+        messages.pop()
+        return f"Error: API returned status code {response.status_code}."
+    
+    except requests.exceptions.RequestException:
+        messages.pop()
+        return "Error: Request failed."
+
+    except (ValueError, KeyError, IndexError):
+        messages.pop()
+        return "Error: Invalid response from API."
+
 
     messages.append(
         {
