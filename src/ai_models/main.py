@@ -13,10 +13,10 @@ def main():
             break
 
 
-        responce = send_prompt(content, messages)
+        response = send_prompt(content, messages)
 
         print()
-        print(responce)
+        print(f"\033[96m{response}\033[0m")
         print()
 
 if __name__ == "__main__":

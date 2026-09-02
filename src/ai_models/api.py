@@ -1,13 +1,6 @@
-import os
 import requests
 
-from dotenv import load_dotenv
-
-load_dotenv()
-
-API_KEY = os.getenv("NOVAI_API_KEY")
-
-url = "https://aiapi-pro.com/v1/chat/completions"
+from ai_models.config import API_KEY, API_URL, MODEL
 
 headers = {
     "Authorization" : f"Bearer {API_KEY}",
@@ -25,14 +18,14 @@ def send_prompt(content, messages):
 
 
     data = {
-        "model" : "qwen3.8-max",
+        "model" : MODEL,
         "messages": messages,
     }
 
     
     try:
         response = requests.post(
-            url,
+            API_URL,
             headers=headers,
             json=data,
             timeout=60,
