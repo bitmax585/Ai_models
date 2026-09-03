@@ -6,11 +6,23 @@ def main():
 
 
     while True:
-        content = input("Enter your prompt (or 'q' to quit): ")
+        print("\nEnter your prompt:")
+        print("(Press Enter twice to send, or type 'q' to quit)")
 
+        lines = []
 
-        if content == "q":
-            break
+        while True:
+            line = input(">>> ")
+
+            if line == "":
+                break
+
+            if line == "q" and not lines:
+                return        
+
+            lines.append(line)
+
+        content = "\n".join(lines)
 
 
         response = send_prompt(content, messages)
