@@ -25,10 +25,8 @@ def main():
         content = "\n".join(lines)
 
 
-        response = send_prompt(content, messages)
+        send_prompt(content, messages)
 
-        print()
-        print(f"\033[96m{response}\033[0m")
         print()
 
 if __name__ == "__main__":
